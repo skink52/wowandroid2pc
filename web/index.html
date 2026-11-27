@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WoW Forever on PC</title>
+<style>
+  :root { color-scheme: dark; }
+  html, body { margin: 0; height: 100%; background: #000; color: #ddd; font: 14px system-ui, sans-serif; overflow: hidden; }
+  #bar { position: fixed; top: 0; left: 0; right: 0; display: flex; gap: 12px; align-items: center; padding: 8px 12px; background: #111d; z-index: 2; }
+  #bar button { font: inherit; padding: 6px 14px; border: 0; border-radius: 4px; background: #2b6cb0; color: #fff; cursor: pointer; }
+  #bar button:disabled { background: #444; cursor: default; }
+  #status { flex: 1; opacity: .85; }
+  #screen { position: fixed; inset: 0; width: 100%; height: 100%; object-fit: contain; cursor: default; outline: none; }
+  body.playing #bar { display: none; }
+  #help { position: fixed; inset: 60px 0 0; display: flex; align-items: center; justify-content: center; text-align: left; pointer-events: none; }
+  #help div { max-width: 520px; line-height: 1.6; }
+  body.streaming #help { display: none; }
+</style>
+</head>
+<body>
+<div id="bar">
+  <button id="connect">Connect phone</button>
+  <button id="play" disabled>Play fullscreen</button>
+  <label><input type="checkbox" id="screenoff"> Phone screen off</label>
+  <span id="status">Plug in the phone, then click Connect phone.</span>
+</div>
+<div id="help"><div>
+  <b>First time on this PC:</b> click <i>Connect phone</i>, pick the phone, then tap <i>Allow</i> (tick <i>Always allow</i>) on the phone.<br>
+  After that, keep this page open (or bookmarked): it connects by itself whenever the phone is plugged in.<br>
+  In fullscreen, hold <b>Esc</b> to leave. Requires Chrome or Edge.
+</div></div>
+<canvas id="screen" tabindex="0"></canvas>
+<script type="module" src="./src/main.ts"></script>
+</body>
+</html>

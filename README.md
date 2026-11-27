@@ -1,29 +1,26 @@
 # wowandroid2pc
 
-Streams WoW Forever (`app.wowforever`) from an Android phone to a Windows PC over USB, and lets you play it with the PC's keyboard and mouse. It uses [scrcpy](https://github.com/Genymobile/scrcpy), downloaded on first run to `%LOCALAPPDATA%\wow2pc`. No admin rights and no install on the phone.
+Play WoW Forever (`app.wowforever`), running on an Android phone, on a Windows PC: the PC shows the game and sends its keyboard and mouse to the phone. **Nothing is installed on the PC.** It is a web page that talks to the phone over USB (WebUSB) in Chrome or Edge. Built on [Tango / ya-webadb](https://github.com/yume-chan/ya-webadb) and [scrcpy](https://github.com/Genymobile/scrcpy).
 
-## Phone setup (once)
+## Phone (one-time)
 1. Settings → About phone → Software information → tap **Build number** 7 times.
-2. Settings → Developer options → turn on **USB debugging**.
-3. Plug in the phone, run `wow2pc.cmd`, and accept the **Allow USB debugging** prompt on the phone (tick *Always allow*).
+2. Settings → Developer options → **USB debugging** on.
+3. Settings → Developer options → **Disable adb authorization timeout** on, so the PC stays allowed beyond 7 days.
+4. Settings → Security and privacy → **Auto Blocker** off, or at least its "Block commands by USB cable" option. Auto Blocker blocks USB debugging.
 
-## Use
-| Command | Effect |
-|---|---|
-| `wow2pc.cmd` | Start streaming now. Opens WoW Forever on the phone if it isn't already open. |
-| `wow2pc.cmd -Install` | Start a background watcher now and at every logon. It opens the stream when the phone is plugged in **and** WoW Forever is in focus. |
-| `wow2pc.cmd -Uninstall` | Remove the watcher. |
+## PC
+1. Plug in the phone and open the page in Chrome or Edge.
+2. Click **Connect phone**, pick the phone, and tap **Allow** on the phone (tick *Always allow*).
+3. Click **Play fullscreen** or click the picture. To leave fullscreen, hold Esc.
 
-Options (they work with `-Install` too): `-Fullscreen`, `-ScreenOff` (phone screen off while streaming), `-MaxFps 60`, `-BitRate 16M`, `-MaxSize 1920`, `-MouseMode sdk|uhid`, `-KeyboardMode uhid|sdk`, `-Wifi ip:port`.
+After the first time, keep the page open or bookmarked. It connects and opens WoW Forever on its own whenever the phone is plugged in.
 
-## Controls
-- Keyboard: sent to the phone as a real hardware keyboard (`uhid`). If keys come out wrong, set the layout on the phone (Settings → General management → Physical keyboard) or use `-KeyboardMode sdk`.
-- Mouse: `sdk` (default) uses the PC cursor directly, and every mouse button goes to the game. `uhid` makes the phone see a real mouse and locks the cursor in the window. Press Left Alt or Left Win to release it.
-- scrcpy shortcuts use Left Ctrl + Left Alt, so they don't clash with WoW keybinds. For example, Ctrl+Alt+F toggles fullscreen.
-- Log: `%LOCALAPPDATA%\wow2pc\wow2pc.log`
+Options are set in the URL: `?codec=h265`, `?bitrate=24` (in Mbit/s), `?fps=60`, `?size=1920` (largest dimension in pixels).
 
-## If USB isn't detected (no driver, PC locked down)
-Windows 10/11 normally installs the ADB driver by itself. If it doesn't, use Wireless debugging instead. This needs no driver, but the phone and PC must be on the same network.
-1. Developer options → **Wireless debugging** → **Pair device with pairing code**.
-2. `%LOCALAPPDATA%\wow2pc\scrcpy\scrcpy-win64-*\adb.exe pair <ip:pairport> <code>`
-3. `wow2pc.cmd -Wifi <ip:port>`, using the port shown on the Wireless debugging screen. This port changes after the phone restarts.
+## Troubleshooting
+- **"Phone is busy"**: another ADB program on the PC (adb, scrcpy, Android Studio, another tab) is holding the phone. Close it.
+- **Phone not listed in the picker**: set the phone's USB mode to *File transfer*, or try another cable or port.
+- **"This browser can't do it"**: use Chrome or Edge. Some work PCs block WebUSB through policy.
+
+## Build / hosting
+`web/` is the source. `cd web && npm ci && npm run build` gives `web/dist/`. A single `index.html` is all you need. The workflow in `.github/workflows/pages.yml` publishes it to GitHub Pages. Pages needs the repo to be public, or a GitHub Pro/Team plan for a private repo. Enable it in Settings → Pages → Source: *GitHub Actions*.
