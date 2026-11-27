@@ -5,15 +5,17 @@ Play WoW Forever (`app.wowforever`), running on an Android phone, on a Windows P
 ## Phone (one-time)
 1. Settings → About phone → Software information → tap **Build number** 7 times.
 2. Settings → Developer options → **USB debugging** on.
-3. Settings → Developer options → **Disable adb authorization timeout** on, so the PC stays allowed beyond 7 days.
-4. Settings → Security and privacy → **Auto Blocker** off, or at least its "Block commands by USB cable" option. Auto Blocker blocks USB debugging.
+
+## Each session
+1. Settings → Security and privacy → **Auto Blocker** off (it blocks USB debugging). Turn it back on when done.
+2. When the phone asks **Allow USB debugging?**, tap **Allow**. Leave *Always allow* unticked if you don't want the PC remembered.
 
 ## PC
 1. Plug in the phone and open the page in Chrome or Edge.
-2. Click **Connect phone**, pick the phone, and tap **Allow** on the phone (tick *Always allow*).
+2. Click **Connect phone**, pick the phone, and tap **Allow** on the phone.
 3. Click **Play fullscreen** or click the picture. To leave fullscreen, hold Esc.
 
-After the first time, keep the page open or bookmarked. It connects and opens WoW Forever on its own whenever the phone is plugged in.
+After the first time, the browser remembers the phone, so with the page open it connects by itself when the phone is plugged in. You still tap Allow on the phone each time.
 
 Options are set in the URL: `?codec=h265`, `?bitrate=24` (in Mbit/s), `?fps=60`, `?size=1920` (largest dimension in pixels).
 
